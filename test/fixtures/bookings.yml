@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  guide_user_id: 1
+  from_time: 2016-03-16 13:01:16
+  to_time: 2016-03-16 13:01:16
+  price: 1.5
+  created_at: 2016-03-16 13:01:16
+  updated_at: 2016-03-16 13:01:16
+  confirm: false
+
+two:
+  user_id: 1
+  guide_user_id: 1
+  from_time: 2016-03-16 13:01:16
+  to_time: 2016-03-16 13:01:16
+  price: 1.5
+  created_at: 2016-03-16 13:01:16
+  updated_at: 2016-03-16 13:01:16
+  confirm: false
