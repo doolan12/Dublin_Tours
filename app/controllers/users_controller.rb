@@ -1,5 +1,10 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy , :guide_profile]
+
+
+  def guide_profile
+    @booking = Booking.new(:user_id => current_user)
+  end
 
   # GET /users
   # GET /users.json

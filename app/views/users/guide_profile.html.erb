@@ -1,0 +1,26 @@
+<h3 class="text-center">Guide Profile</h3>
+<div class="row">
+  <div class="col-md-offset-3 col-md-4">
+    <p><%= "#{@user.first_name} #{@user.last_name}" %></p>
+    <%= simple_form_for(@booking) do |f| %>
+        <%= f.hidden_field :user_id , :value => current_user.id %>
+        <% counter = 0 %>
+        <% @user.tours.each do |tour| %>
+            <div class="row">
+              <%= check_box_tag "booking[booking_tours_attributes][#{counter}][tour_id]" , tour.id , false , {}%>
+              <h5><%= tour.name %></h5>
+              <div class="col-md-6">
+                <%= tour.description %>
+              </div>
+              <div class="col-md-6">
+                <%= tour.price %>
+              </div>
+            </div>
+            <br>
+            <% counter += 1 %>
+        <% end %>
+
+        <%= f.submit "Select and Book" %>
+    <% end %>
+  </div>
+</div>

@@ -5,7 +5,8 @@ class BookingsController < ApplicationController
   # GET /bookings
   # GET /bookings.json
   def index
-    @bookings = Booking.all
+    #@bookings = Booking.all
+    @guides = User.with_role(:guide, :any)
   end
 
   # GET /bookings/1
@@ -29,7 +30,7 @@ class BookingsController < ApplicationController
 
     respond_to do |format|
       if @booking.save
-        format.html { redirect_to @booking, notice: 'Booking was successfully created.' }
+        format.html { redirect_to  edit_booking_path(@booking), notice: 'Booking was successfully created.' }
         format.json { render :show, status: :created, location: @booking }
       else
         format.html { render :new }
@@ -70,6 +71,6 @@ class BookingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def booking_params
-      params.require(:booking).permit(:user_id, :guide_user_id, :from_time, :to_time, :price, :created_at, :updated_at, :confirm)
+      params.require(:booking).permit(:user_id, :guide_user_id, :from_time, :to_time, :price, booking_tours_attributes: [:tour_id, :booking_id , :price])
     end
 end

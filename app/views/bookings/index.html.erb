@@ -1,48 +1,22 @@
 <div class="row">
+  <% @guides.each do |guide| %>
   <div class="col-xs-offset-2 col-xs-8">
     <div class="row">
       <div class="col-xs-8">
 
-        <h2 class="text-center">Museum Tour</h2>
+        <h2 class="text-center"><%= "#{guide.first_name} #{guide.last_name}" %></h2>
         <p></p>
         <p></p>
       </div>
       <div class="col-xs-4">
-          <h2>€20 / hour</h2>
+          <h2>€<%= guide.rate_per_hour %> / hour</h2>
       </div>
     </div>
-    <%= link_to "Book Now" , "#" , :class => "btn btn-primary btn-block"%>
+    <%= link_to "View More", "/users/#{guide.id}/guide_profile", :class => "btn btn-primary btn-block" %>
   </div>
   <hr>
   <br>
   <br>
-  <div class="col-xs-offset-2 col-xs-8">
-    <div class="row">
-      <div class="col-xs-8">
-        <h2 class="text-center">Zoo Tour</h2>
-        <p></p>
-        <p></p>
-      </div>
-      <div class="col-xs-4">
-        <h2>€20 / hour</h2>
-      </div>
-    </div>
-    <%= link_to "Book Now" , "#" , :class => "btn btn-primary btn-block"%>
-  </div>
-  <hr>
-  <br>
-  <br>
-  <div class="col-xs-offset-2 col-xs-8">
-    <div class="row">
-      <div class="col-xs-8">
-        <h2 class="text-center">Garden Tour</h2>
-        <p></p>
-        <p></p>
-      </div>
-      <div class="col-xs-4">
-        <h2>€20 / hour</h2>
-      </div>
-    </div>
-    <%= link_to "Book Now" , "#" , :class => "btn btn-primary btn-block"%>
-  </div>
+   <% end %>
+
 </div>

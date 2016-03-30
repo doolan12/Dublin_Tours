@@ -14,7 +14,11 @@ Rails.application.routes.draw do
     #end
   end
  
-  resources :users
+  resources :users do
+    member do
+      get :guide_profile
+    end
+  end
 
   root 'bookings#index'
   # The priority is based upon order of creation: first created -> highest priority.
