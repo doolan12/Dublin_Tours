@@ -1,33 +1,54 @@
 <%= simple_form_for(@booking) do |f| %>
-  <% if @booking.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@booking.errors.count, "error") %> prohibited this booking from being saved:</h2>
+    <% if @booking.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@booking.errors.count, "error") %> prohibited this booking from being saved:</h2>
 
-      <ul>
-      <% @booking.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <% @booking.booking_tours.each do |bt| %>
-        <h3>
-          <%= bt.tour.name %> - <%= bt.tour.price %>
-        </h3>
-        <br>
+          <ul>
+            <% @booking.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
     <% end %>
 
-  <div class="field">
-    <%= f.label :from_time %><br>
-    <%= f.datetime_select :from_time %>
-  </div>
-  <div class="field">
-    <%= f.label :to_time %><br>
-    <%= f.datetime_select :to_time %>
-  </div>
+    <% total = 0 %>
+    <ol>
+      <% @booking.booking_tours.each do |bt| %>
+          <%= f.simple_fields_for :booking_tours, bt do |ff| %>
+              <% total += bt.tour.price %>
+              <li>
+                <div class="row">
+                  <div class="col-xs-8">
+                    <h4><%= "#{bt.tour.user.first_name} #{bt.tour.user.last_name}" %> </h4>
+                    <h5>
+                      <%= bt.tour.name %> - <%= number_to_currency bt.tour.price %>
+                    </h5>
+                    <br>
+                    <%= ff.hidden_field :price , :value => bt.tour.price %>
+                    <div class="field">
+                      <%= ff.label :from_time %><br>
+                      <%= ff.datetime_select :from_time %>
+                    </div>
+                    <div class="field">
+                      <%= ff.label :to_time %><br>
+                      <%= ff.datetime_select :to_time %>
+                    </div>
+                  </div>
+                  <div class="col-xs-4">
+                    <%= link_to "Remove", "/bookings/#{@booking.id}/remove?tour_id=#{bt.id}", :remote => true, :class => "btn-sm btn-danger right" %>
+                  </div>
+                </div>
+              </li>
+              <hr>
+          <% end %>
+      <% end %>
+    </ol>
 
-  <div class="actions">
-    <%= f.submit "Confirm and Book" %>
-  </div>
+    <h3>Total - <%= number_to_currency total %></h3>
+
+
+    <br>
+    <div class="actions text-center">
+      <%= f.submit "Confirm and Book", :class => "btn btn-success" %>
+    </div>
 <% end %>

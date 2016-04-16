@@ -1,12 +1,25 @@
 class BookingsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_booking, only: [:show, :edit, :update, :destroy]
+  before_action :set_booking, only: [:show, :edit, :update, :destroy, :complete, :remove, :confirm]
 
   # GET /bookings
   # GET /bookings.json
   def index
-    #@bookings = Booking.all
+    # @bookings = Booking.all
     @guides = User.with_role(:guide, :any)
+  end
+
+  def confirm
+    @booking.update(:confirm => true)
+    redirect_to my_bookings_bookings_path, :notice => "Booking has been confirmed"
+  end
+
+  def my_bookings
+    if can? :confirm_booking, :all
+      @bookings = BookingTour.where(:booking => Booking.where(:guide_user_id => current_user.id))
+    else
+      @bookings = BookingTour.where(:booking => current_user.bookings)
+    end
   end
 
   # GET /bookings/1
@@ -23,6 +36,13 @@ class BookingsController < ApplicationController
   def edit
   end
 
+  def complete
+  end
+
+  def remove
+    @booking.booking_tours.where(:id => params[:tour_id]).destroy_all
+  end
+
   # POST /bookings
   # POST /bookings.json
   def create
@@ -30,7 +50,7 @@ class BookingsController < ApplicationController
 
     respond_to do |format|
       if @booking.save
-        format.html { redirect_to  edit_booking_path(@booking), notice: 'Booking was successfully created.' }
+        format.html { redirect_to complete_booking_path(@booking), notice: 'Booking was successfully created.' }
         format.json { render :show, status: :created, location: @booking }
       else
         format.html { render :new }
@@ -44,7 +64,7 @@ class BookingsController < ApplicationController
   def update
     respond_to do |format|
       if @booking.update(booking_params)
-        format.html { redirect_to @booking, notice: 'Booking was successfully updated.' }
+        format.html { redirect_to my_bookings_bookings_path, notice: 'Booking was successfully completed.' }
         format.json { render :show, status: :ok, location: @booking }
       else
         format.html { render :edit }
@@ -64,13 +84,13 @@ class BookingsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_booking
-      @booking = Booking.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_booking
+    @booking = Booking.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def booking_params
-      params.require(:booking).permit(:user_id, :guide_user_id, :from_time, :to_time, :price, booking_tours_attributes: [:tour_id, :booking_id , :price])
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def booking_params
+    params.require(:booking).permit(:id, :user_id, :guide_user_id, :from_time, :to_time, :price, booking_tours_attributes: [:tour_id, :booking_id, :price, :from_time, :to_time, :id])
+  end
 end

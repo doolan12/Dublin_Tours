@@ -11,12 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160330093320) do
+ActiveRecord::Schema.define(version: 20160416131146) do
 
   create_table "booking_tours", force: :cascade do |t|
-    t.integer "booking_id"
-    t.integer "tour_id"
-    t.float   "price"
+    t.integer  "booking_id"
+    t.integer  "tour_id"
+    t.float    "price"
+    t.datetime "from_time"
+    t.datetime "to_time"
   end
 
   create_table "bookings", force: :cascade do |t|
@@ -29,15 +31,6 @@ ActiveRecord::Schema.define(version: 20160330093320) do
     t.datetime "updated_at",    null: false
     t.boolean  "confirm"
   end
-
-  create_table "reviews", force: :cascade do |t|
-    t.string   "review_message"
-    t.integer  "booking_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-  end
-
-  add_index "reviews", ["booking_id"], name: "index_reviews_on_booking_id"
 
   create_table "roles", force: :cascade do |t|
     t.string   "name"

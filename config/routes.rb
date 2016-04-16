@@ -1,7 +1,16 @@
 Rails.application.routes.draw do
-  resources :bookings
+  resources :bookings do
+    member do
+      get 'complete'
+      get 'remove'
+      get 'confirm'
+    end
+    collection do
+      get 'my_bookings'
+    end
+  end
   devise_for :users, controllers: {
-      sessions: "users/sessions" ,
+      sessions: "users/sessions",
       registrations: "users/registrations"
   }
 
@@ -13,7 +22,6 @@ Rails.application.routes.draw do
     #  root 'users/registrations#new', as: :unauthenticated_root
     #end
   end
- 
   resources :users do
     member do
       get :guide_profile

@@ -28,5 +28,10 @@ class Ability
     #
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
+
+    if user.has_role? :guide
+      can :confirm_booking , :all
+    end
+    
   end
 end

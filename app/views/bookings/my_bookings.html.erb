@@ -1,0 +1,72 @@
+<div class="row">
+  <div class="col-xs-offset-3 col-xs-6">
+    <table class="table">
+      <thead>
+      <th>Customer</th>
+      <th>Guide</th>
+      <th>Tour</th>
+      <th>From time</th>
+      <th>To time</th>
+      <th>Price</th>
+      <th>Status</th>
+      <% if can? :confirm_booking , :all %>
+        <th>Confirm</th>
+      <% end %>
+      </thead>
+      <tbody>
+      <% @bookings.each do |bt|  %>
+      <tr>
+        <td><%= "#{bt.booking.user.first_name} #{bt.booking.user.last_name}" %></td>
+        <td><%= "#{bt.tour.user.first_name} #{bt.tour.user.last_name}" %></td>
+        <td><%= bt.tour.name %></td>
+        <td><%= bt.from_time %></td>
+        <td><%= bt.to_time %></td>
+        <td><%= bt.tour.price %></td>
+        <td>
+
+          <% if bt.booking.confirm %>
+            <%=  "Confirmed"  %>
+              <% if !(can? :confirm_booking , :all ) and Time.now >= bt.to_time and Rate.where(:rateable_id => bt.tour.id , :rater_id => bt.booking.user.id).blank? %>
+                  <%= link_to "Leave a review" , "/reviews/new?tour_id=#{bt.tour.id}" , class: "btn btn-sm btn-success"%>
+              <% elsif !(can? :confirm_booking , :all ) and Time.now >= bt.to_time  %>
+                  <br>
+                  Your Review :
+                  <span class="stars" data-score="<%= Rate.where(:rateable_id => bt.tour.id , :rater_id => bt.booking.user.id).average(:stars).to_f %>" ></span>
+              <% end %>
+          <% else  %>
+          <%= "Waiting confirmation" %>
+          <% end %>
+
+        </td>
+        <% if (can? :confirm_booking , :all) and bt.booking.confirm.nil? %>
+            <td>
+          <%= link_to "Confirm" , "/bookings/#{bt.booking.id}/confirm" , :class => " btn-sm btn-success " %>
+            </td>
+        <% elsif (can? :confirm_booking , :all)  %>
+            <td>
+              <span class="stars" data-score="<%= Rate.where(:rateable_id => bt.tour.id , :rater_id => bt.booking.user.id).average(:stars).to_f %>" ></span>
+            </td>
+        <% end  %>
+
+      </tr>
+      <% end  %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function(){
+
+    $('.stars').raty({
+      readOnly: true,
+      score: function() {
+        return $(this).attr('data-score')
+      } ,
+      path: '/assets'
+    });
+
+
+  });
+
+</script>

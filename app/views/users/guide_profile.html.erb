@@ -4,6 +4,7 @@
     <p><%= "#{@user.first_name} #{@user.last_name}" %></p>
     <%= simple_form_for(@booking) do |f| %>
         <%= f.hidden_field :user_id , :value => current_user.id %>
+        <%= f.hidden_field :guide_user_id , :value => @user.id %>
         <% counter = 0 %>
         <% @user.tours.each do |tour| %>
             <div class="row">
