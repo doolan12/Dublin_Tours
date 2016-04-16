@@ -25,6 +25,9 @@
     <ul class="nav navbar-nav navbar-left">
       <li><a href="<%= bookings_path %>">Tour Guides</a></li>
       <li><a href="<%= my_bookings_bookings_path %>">My Bookings</a></li>
+      <% if can? :create_tour, :all %>
+          <li><a href="<%= tours_setup_users_path %>">My settings</a></li>
+      <% end %>
     </ul>
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">

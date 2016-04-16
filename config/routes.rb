@@ -23,6 +23,9 @@ Rails.application.routes.draw do
     #end
   end
   resources :users do
+    collection do
+      get :tours_setup
+    end
     member do
       get :guide_profile
     end

@@ -1,8 +1,36 @@
 class Users::RegistrationsController < Devise::RegistrationsController
 # before_filter :configure_sign_up_params, only: [:create]
 # before_filter :configure_account_update_params, only: [:update]
+   prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]
+  # prepend_before_filter :authenticate_scope!, :only => [:edit, :update, :destroy, :show]
 
-  # GET /resource/sign_up
+  def new
+    #super
+    logger.debug "===coming here===="
+    @user = User.new
+  end
+
+  def create_user
+    @user = User.new(user_params)
+    if @user.save
+      redirect_to users_path , :notice => "User created successfully"
+    else
+      puts @user.errors.full_messages
+      render "users/new"
+    end
+  end
+
+  def update_user
+    @user = User.find_by_id(user_params[:id])
+    if @user.update(user_params)
+      redirect_to bookings_path , :notice => "Settings updated successfully"
+    else
+      puts @user.errors.full_messages
+      render "users/edit"
+    end
+  end
+
+# GET /resource/sign_up
   # def new
   #   super
   # end
@@ -49,9 +77,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # The path used after sign up.
-  # def after_sign_up_path_for(resource)
-  #   super(resource)
-  # end
+  def after_sign_up_path_for(resource)
+    #super(resource)
+    root_path
+  end
+
+   private
+   def user_params
+     params.require(:user).permit(:profile , :first_name, :last_name, :guide, :name, :email, :password , :password_confirmation , :role , :created_by_id , :id ,
+     tours_attributes: [:name , :price , :tour_type, :description , :user_id , :_destroy, :id])
+   end
 
   # The path used after sign up for inactive accounts.
   # def after_inactive_sign_up_path_for(resource)
