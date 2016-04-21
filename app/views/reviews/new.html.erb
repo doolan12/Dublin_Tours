@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-xs-offset-3 col-xs-6">
+    <h3>Review for <%= "#{@review.tour.name}" %></h3>
+    <%= simple_form_for @review do |f| %>
+        <span class="stars" data-score="<%= Rate.where(:rateable_id => @review.tour_id, :rater_id => current_user.id).average(:stars).to_f %>"></span>
+        <%= f.hidden_field :user_id , :value => @review.user_id %>
+        <br>
+        <%= f.hidden_field :tour_id , :value => @review.tour_id %>
+        <br>
+        <div class="form-group">
+        <%= f.text_field :review_title , class: "form-control" , placeholder: "Review Title"%>
+        </div>
+        <br>
+        <%= f.text_area :comment , class: "form-control" , placeholder: "Your review"%>
+        <br>
+        <div class="text-center">
+          <%= f.submit :Submit, class: "btn btn-success" %>
+        </div>
+    <% end %>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function(){
+
+    $('.stars').raty({
+      readOnly: false,
+      score: function() {
+        return $(this).attr('data-score')
+      } ,
+      path: '/assets'
+    });
+
+
+  });
+
+</script>

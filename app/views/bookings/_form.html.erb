@@ -21,10 +21,10 @@
                   <div class="col-xs-8">
                     <h4><%= "#{bt.tour.user.first_name} #{bt.tour.user.last_name}" %> </h4>
                     <h5>
-                      <%= bt.tour.name %> - <%= number_to_currency bt.tour.price %>
+                      <%= bt.tour.name %> - <%= number_to_currency bt.tour.price, unit: '€' %>
                     </h5>
                     <br>
-                    <%= ff.hidden_field :price , :value => bt.tour.price %>
+                    <%= ff.hidden_field :price , :value => bt.tour.price, unit: '€' %>
                     <div class="field">
                       <%= ff.label :from_time %><br>
                       <%= ff.datetime_select :from_time %>
@@ -44,7 +44,7 @@
       <% end %>
     </ol>
 
-    <h3>Total - <%= number_to_currency total %></h3>
+    <h3>Total - <%= number_to_currency total, unit: '€' %></h3>
 
 
     <br>

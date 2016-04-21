@@ -1,7 +1,7 @@
 <div class="row">
 
 
-  <% @guides.each do |guide| %>
+  <% @guides.order('first_name ASC').each do |guide| %>
       <div class="col-xs-offset-2 col-xs-8">
         <div class="row">
           <div class="col-xs-8">
@@ -15,15 +15,19 @@
           <div class="col-xs-4">
             <h2><%= guide.email %></h2>
             <%= image_tag(guide.avatar_url , :width => 200 , :height => 150) if guide.avatar? %>
-            <%= simple_form_for(guide, :url => user_path(:id => guide), :method => :patch) do |f| %>
-                <%= f.file_field :avatar %>
-                <%= f.submit %>
+            <% if guide == current_user %>
+              <%= simple_form_for(guide, :url => user_path(:id => guide), :method => :patch) do |f| %>
+                  <%= f.file_field :avatar %>
+                  <%= f.submit %>
+              <% end %>
             <% end %>
           </div>
         </div>
-        <%= link_to "View More", "/users/#{guide.id}/guide_profile", :class => "btn btn-primary btn-block" %>
+        <div class="text-center">
+          <%= link_to "Book", "/users/#{guide.id}/guide_profile", :class => "btn btn-success btn-lg" %>
+        </div>
+        <hr>
       </div>
-      <hr>
       <br>
       <br>
   <% end %>

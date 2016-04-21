@@ -1,6 +1,6 @@
 <h3 class="text-center">Guide Profile</h3>
 <div class="row">
-  <div class="col-md-offset-3 col-md-4">
+  <div class="col-md-offset-2 col-md-8">
     <p><%= "#{@user.first_name} #{@user.last_name}" %></p>
     <%= simple_form_for(@booking) do |f| %>
         <%= f.hidden_field :user_id , :value => current_user.id %>
@@ -9,14 +9,62 @@
         <% @user.tours.each do |tour| %>
             <div class="row">
               <%= check_box_tag "booking[booking_tours_attributes][#{counter}][tour_id]" , tour.id , false , {}%>
-              <h5><%= tour.name %></h5>
+              <h4><%= tour.name %></h4>
+              <div class="stars" data-score="<%= Rate.where(:rateable_id => tour.id).average(:stars).to_f %>"></div>
+              <%#= rating_for tour , "experience" , disable: true, imdb_avg: true%>
+
+
               <div class="col-md-6">
                 <%= tour.description %>
               </div>
               <div class="col-md-6">
-                <%= tour.price %>
+                <%= number_to_currency tour.price, unit: '€' %>
               </div>
             </div>
+
+            <h6>Photos</h6>
+            <div class="row">
+              <div class="col-xs-4">
+                <%= image_tag(tour.photo1_url , :width => 200 , :height => 150) if tour.photo1? %>
+              </div>
+              <div class="col-xs-4">
+                <%= image_tag(tour.photo2_url , :width => 200 , :height => 150) if tour.photo1? %>
+              </div>
+              <div class="col-xs-4">
+                <%= image_tag(tour.photo3_url , :width => 200 , :height => 150) if tour.photo1? %>
+              </div>
+            </div>
+
+            <h6>Reviews</h6>
+            <div class="row">
+
+              <% if !tour.reviews.blank? %>
+                <div class="col-md-12" style="height: 120px;overflow: auto;">
+                  <table class="table table-striped" >
+                  <% tour.reviews.each do |r| %>
+                  <tr>
+                    <td>
+                    <small><i><%= "#{r.user.first_name} #{r.user.last_name}" %></i></small>
+                    <br>
+                    <span class="stars" data-score="<%= Rate.where(:rateable_id => tour.id , :rater_id => r.user_id).average(:stars).to_f %>" ></span>
+                    <bold><%= r.review_title %></bold>
+                    <br>
+                    <span>
+                      <%= r.comment %>
+                    </span>
+                    </td>
+                  </tr>
+                  <% end  %>
+                  </table>
+                </div>
+                  <% else  %>
+              <p><i>No reviews yet</i></p>
+              <% end %>
+
+            </div>
+
+
+
             <br>
             <% counter += 1 %>
         <% end %>
@@ -25,3 +73,20 @@
     <% end %>
   </div>
 </div>
+<script>
+  $(document).ready(function(){
+
+    $('.stars').raty({
+      readOnly: true,
+      score: function() {
+        return $(this).attr('data-score')
+      } ,
+      path: '/assets'
+    });
+
+
+  });
+
+</script>
+
+

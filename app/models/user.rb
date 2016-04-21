@@ -6,16 +6,19 @@ class User < ActiveRecord::Base
          #:recoverable, :rememberable, :trackable, :validatable
   has_many :tours , :dependent => :destroy
   has_many :bookings , :dependent => :destroy
+  has_many :reviews , :dependent => :destroy
 
   accepts_nested_attributes_for :tours ,  reject_if: :all_blank, allow_destroy: true
 
-  attr_accessor :guide
+  #attr_accessor :guide
 
   after_create :add_guide_role
   mount_uploader :avatar, AvatarUploader
 
+  ratyrate_rater
+
   def add_guide_role
-    if guide
+    if guide == true
       self.add_role :guide
     end
   end

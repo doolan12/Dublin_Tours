@@ -12,6 +12,9 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.turbolinks
 //= require turbolinks
 //= require cocoon
+//= require jquery.raty
+//= require ratyrate
 //= require_tree .

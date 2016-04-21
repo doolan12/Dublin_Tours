@@ -1,5 +1,4 @@
 class Users::RegistrationsController < Devise::RegistrationsController
-# before_filter :configure_sign_up_params, only: [:create]
 # before_filter :configure_account_update_params, only: [:update]
    prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]
   # prepend_before_filter :authenticate_scope!, :only => [:edit, :update, :destroy, :show]
@@ -84,7 +83,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
    private
    def user_params
-     params.require(:user).permit(:profile , :first_name, :last_name, :guide, :name, :email, :password , :password_confirmation , :role , :created_by_id , :id ,
+     params.require(:user).permit(:photo1 , :photo2, :photo3,:profile , :first_name, :last_name, :guide, :name, :email, :password , :password_confirmation , :role , :created_by_id , :id ,
      tours_attributes: [:name , :price , :tour_type, :description , :user_id , :_destroy, :id])
    end
 

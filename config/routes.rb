@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :reviews
+  
+  post '/rate' => 'rater#create', :as => 'rate'
   resources :bookings do
     member do
       get 'complete'

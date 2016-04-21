@@ -63,3 +63,4 @@ gem 'bootstrap-datepicker-rails'
 gem "font-awesome-rails"
 gem "cocoon"
 gem "carrierwave"
+gem 'ratyrate'

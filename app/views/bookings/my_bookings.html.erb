@@ -23,20 +23,18 @@
         <td><%= bt.to_time %></td>
         <td><%= bt.tour.price %></td>
         <td>
-
           <% if bt.booking.confirm %>
             <%=  "Confirmed"  %>
               <% if !(can? :confirm_booking , :all ) and Time.now >= bt.to_time and Rate.where(:rateable_id => bt.tour.id , :rater_id => bt.booking.user.id).blank? %>
                   <%= link_to "Leave a review" , "/reviews/new?tour_id=#{bt.tour.id}" , class: "btn btn-sm btn-success"%>
-              <% elsif !(can? :confirm_booking , :all ) and Time.now >= bt.to_time  %>
-                  <br>
-                  Your Review :
-                  <span class="stars" data-score="<%= Rate.where(:rateable_id => bt.tour.id , :rater_id => bt.booking.user.id).average(:stars).to_f %>" ></span>
-              <% end %>
+             <% elsif (can? :confirm_booking , :all)  %>
+            <td>
+              <span class="stars" data-score="<%= Rate.where('created_at > ?', bt.to_time).where(:rateable_id => bt.tour.id , :rater_id => bt.booking.user.id).average(:stars).to_f %>" ></span>
+            </td>
+        <% end  %>
           <% else  %>
           <%= "Waiting confirmation" %>
           <% end %>
-
         </td>
         <% if (can? :confirm_booking , :all) and bt.booking.confirm.nil? %>
             <td>
@@ -54,7 +52,6 @@
     </table>
   </div>
 </div>
-
 <script>
   $(document).ready(function(){
 
