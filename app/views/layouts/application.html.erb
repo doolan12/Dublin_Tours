@@ -28,6 +28,9 @@
       <% if can? :create_tour, :all %>
           <li><a href="<%= tours_setup_users_path %>">My settings</a></li>
       <% end %>
+      <% if can? :manage, User  %>
+           <li><a href="<%= users_path %>">Users</a></li>
+       <% end %>
     </ul>
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">

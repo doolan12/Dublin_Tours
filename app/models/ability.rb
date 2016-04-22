@@ -32,6 +32,9 @@ class Ability
     if user.has_role? :guide
       can :confirm_booking , :all
       can :create_tour , :all
+
+      elsif user.has_role? :admin
+       can :manage , User
     end
 
   end

@@ -1,6 +1,14 @@
+<script type="text/javascript">
+  $(document).ready(function () {
+    $('.datatable').dataTable({
+      destroy: true
+    });
+  });
+</script>
+
 <div class="row">
   <div class="col-xs-offset-3 col-xs-6">
-    <table class="table">
+    <table class="table datatable">
       <thead>
       <th>Customer</th>
       <th>Guide</th>
@@ -19,9 +27,9 @@
         <td><%= "#{bt.booking.user.first_name} #{bt.booking.user.last_name}" %></td>
         <td><%= "#{bt.tour.user.first_name} #{bt.tour.user.last_name}" %></td>
         <td><%= bt.tour.name %></td>
-        <td><%= bt.from_time %></td>
-        <td><%= bt.to_time %></td>
-        <td><%= bt.tour.price %></td>
+        <td><%= bt.from_time.to_s(:short) %></td>
+        <td><%= bt.to_time.to_s(:short) %></td>
+        <td><%= number_to_currency bt.tour.price, unit: '€' %></td>
         <td>
           <% if bt.booking.confirm %>
             <%=  "Confirmed"  %>

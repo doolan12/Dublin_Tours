@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
   #attr_accessor :guide
 
   after_create :add_guide_role
+  after_update :add_guide_role
   mount_uploader :avatar, AvatarUploader
 
   ratyrate_rater
@@ -20,6 +21,8 @@ class User < ActiveRecord::Base
   def add_guide_role
     if guide == true
       self.add_role :guide
+    else
+      self.remove_role :guide
     end
   end
 end

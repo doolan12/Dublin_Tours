@@ -83,8 +83,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
    private
    def user_params
-     params.require(:user).permit(:photo1 , :photo2, :photo3,:profile , :first_name, :last_name, :guide, :name, :email, :password , :password_confirmation , :role , :created_by_id , :id ,
-     tours_attributes: [:name , :price , :tour_type, :description , :user_id , :_destroy, :id])
+     params.require(:user).permit(:photo1 , :photo2, :photo3, :profile , :first_name, :last_name, :guide, :name, :email, :password , :password_confirmation , :role , :created_by_id , :id ,
+     tours_attributes: [:photo1, :photo2, :photo3, :name , :price , :tour_type, :description , :user_id , :_destroy, :id])
    end
 
   # The path used after sign up for inactive accounts.
