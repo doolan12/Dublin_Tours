@@ -14,7 +14,7 @@
           <%= f.label :profile %>
           <%= f.text_area :profile, :class => "form-control" %>
         </div>
-        <div id="tours">
+        <div id="tours_nested">
           <h3>Tours</h3>
           <% current_user.tours.each do |tour| %>
               <%= f.simple_fields_for :tours, tour do |ff| %>

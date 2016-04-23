@@ -7,7 +7,8 @@
 </script>
 
 <p id="notice"><%= notice %></p>
-
+<div class="row">
+  <div class="col-xs-offset-3 col-xs-6">
 <h1>Listing Users</h1>
 
 <table class="table datatable">
@@ -30,9 +31,21 @@
         <td><%= user.last_name %></td>
         <td><%= user.address %></td>
         <td><%= user.mobile %></td>
-        <td><%= link_to 'Show', user %></td>
-        <td><%= link_to 'Edit', edit_user_path(user) %></td>
-        <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>
+              <%= link_to user_path(user) do %>
+                <i class="glyphicon glyphicon-eye-open"></i>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to  edit_user_path(user)  do %>
+                  <i class="glyphicon glyphicon-edit"></i>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to user_path(user), method: :delete, data: { confirm: 'Are you sure?' } do %>
+              <i class="glyphicon glyphicon-trash"></i>
+              <% end %>            
+          </td>
       </tr>
     <% end %>
   </tbody>
@@ -41,3 +54,5 @@
 <br>
 
 <%= link_to 'New User', new_user_path %>
+</div>
+</div>

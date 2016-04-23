@@ -17,3 +17,27 @@
 
  @import "bootstrap-sprockets";
 @import "bootstrap";
+
+#tours{
+    border-radius: 25px;
+    border: 2px solid #73AD21;
+    padding: 20px; 
+}
+
+#photos{
+    border-radius: 25px;
+    border: 2px solid  #2C3539;
+    padding: 20px; 
+}
+
+#reviews{
+    border-radius: 25px;
+    border: 2px solid #C0C0C0;
+    padding: 20px; 
+}
+
+#tours_nested{
+    border-radius: 25px;
+    border: 2px solid #C0C0C0;
+    padding: 20px; 
+}
